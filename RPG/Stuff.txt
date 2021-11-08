@@ -1,0 +1,2 @@
+Root password: random123
+port: 3306
