@@ -49,7 +49,7 @@ namespace ConsoleApplication1
         static bool playerDead = false;
         static int expRequired = 600;
         static int expIncreasePerLevel = 300;
-        static int potionHeal = 30;
+        static int potionHealAmount = 30;
         static int potionPrice = 5000;
         static int titaniteShardPrice = 2000;
         static int largeTitaniteShardPrice = 10000;
@@ -59,7 +59,7 @@ namespace ConsoleApplication1
         static int healCounter = 0;
         static int numberOfStagesAvailable = 1;
         static int ironArmorTurns = 0;
-        static int quickEvasionTurns = 0;
+        static int swiftEvasionTurns = 0;
         static int lastSpellIndex = -1;
         //static bool specialStagesAvailable = false;
         static ArrayList specialStages = new ArrayList{"Longsword Battlegrounds", "Dagger Battlegrounds", "Twindaggers Battlegrounds",
@@ -488,11 +488,11 @@ namespace ConsoleApplication1
                         {
                             Console.WriteLine("\nIron Armor is active");
                         }
-                        if (quickEvasionTurns != 0)
+                        if (swiftEvasionTurns != 0)
                         {
                             Console.WriteLine("Swift Evasion is active");
                         }
-                        Console.WriteLine("Player's current health: " + player.GetHealth());
+                        Console.WriteLine("Player's current health: {0}/{1}", player.GetHealth(), player.GetMaxHealth());
                         Console.WriteLine("Monster's current health: " + forestMonster.getHealth());
                         Console.WriteLine("{0}/{1} monsters killed", numKills, numForestEnemies);
                         Console.WriteLine("Bag Space: {0}/{1}", player.GetEquipmentBag().Count, player.GetBagSpace());
@@ -508,7 +508,7 @@ namespace ConsoleApplication1
                         }
                         Console.WriteLine("Check bag (b)");
                         Console.WriteLine("Check equipment (e)");
-                        Console.WriteLine("Heal (h) ({0})", player.GetHeals());
+                        Console.WriteLine("Heal (h) (heals for {0}) ({1})", potionHealAmount, player.GetHeals());
                         input = Console.ReadLine();
 
                         switch (input)
@@ -526,14 +526,14 @@ namespace ConsoleApplication1
                                     monsterDamg = (int)(quickAttack * levelMultiplier);
                                 }
 
-                                if (quickEvasionTurns == 0)
+                                if (swiftEvasionTurns == 0)
                                 {
                                     monsterAttackHit = rnd.Next(3);
                                 }
                                 else
                                 {
                                     monsterAttackHit = rnd.Next(2);
-                                    quickEvasionTurns--;
+                                    swiftEvasionTurns--;
                                 }
 
                                 if (attackHit == 0)
@@ -587,7 +587,7 @@ namespace ConsoleApplication1
                                 {
                                     Console.WriteLine("You have died and lost your exp");
                                     ironArmorTurns = 0;
-                                    quickEvasionTurns = 0;
+                                    swiftEvasionTurns = 0;
                                     player.SetExp(0);
                                     player.SetHealth(1);
                                     player.SetHeals(maxHeals);
@@ -611,14 +611,14 @@ namespace ConsoleApplication1
                                     {
                                         monsterDamg = (int)(quickAttack * levelMultiplier);
                                     }
-                                    if (quickEvasionTurns == 0)
+                                    if (swiftEvasionTurns == 0)
                                     {
                                         monsterAttackHit = rnd.Next(3);
                                     }
                                     else
                                     {
                                         monsterAttackHit = rnd.Next(2);
-                                        quickEvasionTurns--;
+                                        swiftEvasionTurns--;
                                     }
                                     if (attackHit == 0)
                                     {
@@ -671,7 +671,7 @@ namespace ConsoleApplication1
                                     {
                                         Console.WriteLine("You have died and lost your exp");
                                         ironArmorTurns = 0;
-                                        quickEvasionTurns = 0;
+                                        swiftEvasionTurns = 0;
                                         player.SetExp(0);
                                         RestingArea();
                                     }
@@ -714,14 +714,14 @@ namespace ConsoleApplication1
                                                     {
                                                         monsterDamg = (int)(quickAttack * levelMultiplier);
                                                     }
-                                                    if (quickEvasionTurns == 0)
+                                                    if (swiftEvasionTurns == 0)
                                                     {
                                                         monsterAttackHit = rnd.Next(3);
                                                     }
                                                     else
                                                     {
                                                         monsterAttackHit = rnd.Next(2);
-                                                        quickEvasionTurns--;
+                                                        swiftEvasionTurns--;
                                                     }
                                                     if (attackHit == 0)
                                                     {
@@ -790,7 +790,7 @@ namespace ConsoleApplication1
                                                             break;
 
                                                         case "Swift Evasion":
-                                                            quickEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
+                                                            swiftEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
                                                             break;
                                                     }
                                                 }
@@ -815,7 +815,7 @@ namespace ConsoleApplication1
                                 {
                                     Console.WriteLine("You have died and lost your exp");
                                     ironArmorTurns = 0;
-                                    quickEvasionTurns = 0;
+                                    swiftEvasionTurns = 0;
                                     player.SetExp(0);
                                     RestingArea();
                                 }
@@ -843,14 +843,14 @@ namespace ConsoleApplication1
                                                 {
                                                     monsterDamg = (int)(quickAttack * levelMultiplier);
                                                 }
-                                                if (quickEvasionTurns == 0)
+                                                if (swiftEvasionTurns == 0)
                                                 {
                                                     monsterAttackHit = rnd.Next(3);
                                                 }
                                                 else
                                                 {
                                                     monsterAttackHit = rnd.Next(2);
-                                                    quickEvasionTurns--;
+                                                    swiftEvasionTurns--;
                                                 }
                                                 if (attackHit == 0)
                                                 {
@@ -919,7 +919,7 @@ namespace ConsoleApplication1
                                                         break;
 
                                                     case "Swift Evasion":
-                                                        quickEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
+                                                        swiftEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
                                                         break;
                                                 }
                                             }
@@ -942,7 +942,7 @@ namespace ConsoleApplication1
                                 {
                                     Console.WriteLine("You have died and lost your exp");
                                     ironArmorTurns = 0;
-                                    quickEvasionTurns = 0;
+                                    swiftEvasionTurns = 0;
                                     player.SetExp(0);
                                     RestingArea();
                                 }
@@ -964,7 +964,7 @@ namespace ConsoleApplication1
                             case "h":
                                 if (player.GetHeals() > 0)
                                 {
-                                    player.IncreaseHealth(potionHeal);
+                                    player.IncreaseHealth(potionHealAmount);
                                     if (player.GetHealth() > player.GetMaxHealth())
                                     {
                                         player.SetHealth(1);
@@ -1044,11 +1044,11 @@ namespace ConsoleApplication1
                         {
                             Console.WriteLine("\nIron Armor is active");
                         }
-                        if (quickEvasionTurns != 0)
+                        if (swiftEvasionTurns != 0)
                         {
                             Console.WriteLine("Swift Evasion is active");
                         }
-                        Console.WriteLine("Player's current health: " + player.GetHealth());
+                        Console.WriteLine("Player's current health: {0}/{1}", player.GetHealth(), player.GetMaxHealth());
                         Console.WriteLine("Monster's current health: " + wastelandMonster.getHealth());
                         Console.WriteLine("{0}/{1} monsters killed", numKills, numWastelandEnemies);
                         Console.WriteLine("Bag Space: {0}/{1}", player.GetEquipmentBag().Count, player.GetBagSpace());
@@ -1060,7 +1060,7 @@ namespace ConsoleApplication1
                         Console.WriteLine("Magic attack (m)");
                         Console.WriteLine("Check bag (b)");
                         Console.WriteLine("Check equipment (e)");
-                        Console.WriteLine("Heal (h) ({0})", player.GetHeals());
+                        Console.WriteLine("Heal (h) (heals for {0}) ({1})", potionHealAmount, player.GetHeals());
                         input = Console.ReadLine();
 
                         switch (input)
@@ -1077,14 +1077,14 @@ namespace ConsoleApplication1
                                 {
                                     monsterDamg = (int)(quickAttack * levelMultiplier);
                                 }
-                                if (quickEvasionTurns == 0)
+                                if (swiftEvasionTurns == 0)
                                 {
                                     monsterAttackHit = rnd.Next(3);
                                 }
                                 else
                                 {
                                     monsterAttackHit = rnd.Next(2);
-                                    quickEvasionTurns--;
+                                    swiftEvasionTurns--;
                                 }
                                 if (attackHit == 0)
                                 {
@@ -1136,7 +1136,7 @@ namespace ConsoleApplication1
                                 {
                                     Console.WriteLine("You have died and lost your exp");
                                     ironArmorTurns = 0;
-                                    quickEvasionTurns = 0;
+                                    swiftEvasionTurns = 0;
                                     player.SetExp(0);
                                     RestingArea();
                                 }
@@ -1157,14 +1157,14 @@ namespace ConsoleApplication1
                                     {
                                         monsterDamg = (int)(quickAttack * levelMultiplier);
                                     }
-                                    if (quickEvasionTurns == 0)
+                                    if (swiftEvasionTurns == 0)
                                     {
                                         monsterAttackHit = rnd.Next(3);
                                     }
                                     else
                                     {
                                         monsterAttackHit = rnd.Next(2);
-                                        quickEvasionTurns--;
+                                        swiftEvasionTurns--;
                                     }
                                     if (attackHit == 0)
                                     {
@@ -1217,7 +1217,7 @@ namespace ConsoleApplication1
                                     {
                                         Console.WriteLine("You have died and lost your exp");
                                         ironArmorTurns = 0;
-                                        quickEvasionTurns = 0;
+                                        swiftEvasionTurns = 0;
                                         player.SetExp(0);
                                         RestingArea();
                                     }
@@ -1260,14 +1260,14 @@ namespace ConsoleApplication1
                                                     {
                                                         monsterDamg = (int)(quickAttack * levelMultiplier);
                                                     }
-                                                    if (quickEvasionTurns == 0)
+                                                    if (swiftEvasionTurns == 0)
                                                     {
                                                         monsterAttackHit = rnd.Next(3);
                                                     }
                                                     else
                                                     {
                                                         monsterAttackHit = rnd.Next(2);
-                                                        quickEvasionTurns--;
+                                                        swiftEvasionTurns--;
                                                     }
                                                     if (attackHit == 0)
                                                     {
@@ -1334,8 +1334,8 @@ namespace ConsoleApplication1
                                                             ironArmorTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
                                                             break;
 
-                                                        case "specialStagesPlayerList":
-                                                            quickEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
+                                                        case "Swift Evasion":
+                                                            swiftEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
                                                             break;
                                                     }
                                                 }
@@ -1360,7 +1360,7 @@ namespace ConsoleApplication1
                                 {
                                     Console.WriteLine("You have died and lost your exp");
                                     ironArmorTurns = 0;
-                                    quickEvasionTurns = 0;
+                                    swiftEvasionTurns = 0;
                                     player.SetExp(0);
                                     RestingArea();
                                 }
@@ -1378,7 +1378,7 @@ namespace ConsoleApplication1
                             case "h":
                                 if (player.GetHeals() > 0)
                                 {
-                                    player.IncreaseHealth(potionHeal);
+                                    player.IncreaseHealth(potionHealAmount);
                                     if (player.GetHealth() > player.GetMaxHealth())
                                     {
                                         player.SetHealth(1);
@@ -1458,11 +1458,11 @@ namespace ConsoleApplication1
                         {
                             Console.WriteLine("\nIron Armor is active");
                         }
-                        if (quickEvasionTurns != 0)
+                        if (swiftEvasionTurns != 0)
                         {
                             Console.WriteLine("Swift Evasion is active");
                         }
-                        Console.WriteLine("Player's current health: " + player.GetHealth());
+                        Console.WriteLine("Player's current health: {0}/{1}", player.GetHealth(), player.GetMaxHealth());
                         Console.WriteLine("Monster's current health: " + graveyardMonster.getHealth());
                         Console.WriteLine("{0}/{1} monsters killed", numKills, numGraveyardEnemies);
                         Console.WriteLine("Bag Space: {0}/{1}", player.GetEquipmentBag().Count, player.GetBagSpace());
@@ -1474,7 +1474,7 @@ namespace ConsoleApplication1
                         Console.WriteLine("Magic attack (m)");
                         Console.WriteLine("Check bag (b)");
                         Console.WriteLine("Check equipment (e)");
-                        Console.WriteLine("Heal (h) ({0})", player.GetHeals());
+                        Console.WriteLine("Heal (h) (heals for {0}) ({1})", potionHealAmount, player.GetHeals());
                         input = Console.ReadLine();
 
                         switch (input)
@@ -1491,14 +1491,14 @@ namespace ConsoleApplication1
                                 {
                                     monsterDamg = (int)(quickAttack * levelMultiplier);
                                 }
-                                if (quickEvasionTurns == 0)
+                                if (swiftEvasionTurns == 0)
                                 {
                                     monsterAttackHit = rnd.Next(3);
                                 }
                                 else
                                 {
                                     monsterAttackHit = rnd.Next(2);
-                                    quickEvasionTurns--;
+                                    swiftEvasionTurns--;
                                 }
                                 if (attackHit == 0)
                                 {
@@ -1550,7 +1550,7 @@ namespace ConsoleApplication1
                                 {
                                     Console.WriteLine("You have died and lost your exp");
                                     ironArmorTurns = 0;
-                                    quickEvasionTurns = 0;
+                                    swiftEvasionTurns = 0;
                                     player.SetExp(0);
                                     RestingArea();
                                 }
@@ -1571,14 +1571,14 @@ namespace ConsoleApplication1
                                     {
                                         monsterDamg = (int)(quickAttack * levelMultiplier);
                                     }
-                                    if (quickEvasionTurns == 0)
+                                    if (swiftEvasionTurns == 0)
                                     {
                                         monsterAttackHit = rnd.Next(3);
                                     }
                                     else
                                     {
                                         monsterAttackHit = rnd.Next(2);
-                                        quickEvasionTurns--;
+                                        swiftEvasionTurns--;
                                     }
                                     if (attackHit == 0)
                                     {
@@ -1673,14 +1673,14 @@ namespace ConsoleApplication1
                                                     {
                                                         monsterDamg = (int)(quickAttack * levelMultiplier);
                                                     }
-                                                    if (quickEvasionTurns == 0)
+                                                    if (swiftEvasionTurns == 0)
                                                     {
                                                         monsterAttackHit = rnd.Next(3);
                                                     }
                                                     else
                                                     {
                                                         monsterAttackHit = rnd.Next(2);
-                                                        quickEvasionTurns--;
+                                                        swiftEvasionTurns--;
                                                     }
                                                     if (attackHit == 0)
                                                     {
@@ -1747,8 +1747,8 @@ namespace ConsoleApplication1
                                                             ironArmorTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
                                                             break;
 
-                                                        case "specialStagesPlayerList":
-                                                            quickEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
+                                                        case "Swift Evasion":
+                                                            swiftEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
                                                             break;
                                                     }
                                                 }
@@ -1773,7 +1773,7 @@ namespace ConsoleApplication1
                                 {
                                     Console.WriteLine("You have died and lost your exp");
                                     ironArmorTurns = 0;
-                                    quickEvasionTurns = 0;
+                                    swiftEvasionTurns = 0;
                                     player.SetExp(0);
                                     RestingArea();
                                 }
@@ -1791,7 +1791,7 @@ namespace ConsoleApplication1
                             case "h":
                                 if (player.GetHeals() > 0)
                                 {
-                                    player.IncreaseHealth(potionHeal);
+                                    player.IncreaseHealth(potionHealAmount);
                                     if (player.GetHealth() > player.GetMaxHealth())
                                     {
                                         player.SetHealth(1);
@@ -1962,11 +1962,11 @@ namespace ConsoleApplication1
                 {
                     Console.WriteLine("\nIron Armor is active");
                 }
-                if (quickEvasionTurns != 0)
+                if (swiftEvasionTurns != 0)
                 {
                     Console.WriteLine("Swift Evasion is active");
                 }
-                Console.WriteLine("Player's current health: " + player.GetHealth());
+                Console.WriteLine("Player's current health: {0}/{1}", player.GetHealth(), player.GetMaxHealth());
                 Console.WriteLine("Boss's current health: " + bossMonster.getHealth());
                 Console.WriteLine("Bag Space: {0}/{1}", player.GetEquipmentBag().Count, player.GetBagSpace());
                 Console.WriteLine("Exp: " + player.GetExp());
@@ -1977,7 +1977,7 @@ namespace ConsoleApplication1
                 Console.WriteLine("Magic attack (m)");
                 Console.WriteLine("Check bag (b)");
                 Console.WriteLine("Check equipment (e)");
-                Console.WriteLine("Heal (h) ({0})", player.GetHeals());
+                Console.WriteLine("Heal (h) (heals for {0}) ({1})", potionHealAmount, player.GetHeals());
                 input = Console.ReadLine();
 
                 switch (input)
@@ -1994,14 +1994,14 @@ namespace ConsoleApplication1
                         {
                             monsterDamg = (int)(quickAttack * levelMultiplier);
                         }
-                        if (quickEvasionTurns == 0)
+                        if (swiftEvasionTurns == 0)
                         {
                             monsterAttackHit = rnd.Next(3);
                         }
                         else
                         {
                             monsterAttackHit = rnd.Next(2);
-                            quickEvasionTurns--;
+                            swiftEvasionTurns--;
                         }
                         if (attackHit == 0)
                         {
@@ -2054,7 +2054,7 @@ namespace ConsoleApplication1
                         {
                             Console.WriteLine("You have died and lost your exp");
                             ironArmorTurns = 0;
-                            quickEvasionTurns = 0;
+                            swiftEvasionTurns = 0;
                             player.SetExp(0);
                             RestingArea();
                         }
@@ -2075,14 +2075,14 @@ namespace ConsoleApplication1
                             {
                                 monsterDamg = (int)(quickAttack * levelMultiplier);
                             }
-                            if (quickEvasionTurns == 0)
+                            if (swiftEvasionTurns == 0)
                             {
                                 monsterAttackHit = rnd.Next(3);
                             }
                             else
                             {
                                 monsterAttackHit = rnd.Next(2);
-                                quickEvasionTurns--;
+                                swiftEvasionTurns--;
                             }
                             if (attackHit == 0)
                             {
@@ -2135,7 +2135,7 @@ namespace ConsoleApplication1
                             {
                                 Console.WriteLine("You have died and lost your exp");
                                 ironArmorTurns = 0;
-                                quickEvasionTurns = 0;
+                                swiftEvasionTurns = 0;
                                 player.SetExp(0);
                                 RestingArea();
                             }
@@ -2178,14 +2178,14 @@ namespace ConsoleApplication1
                                             {
                                                 monsterDamg = (int)(quickAttack * levelMultiplier);
                                             }
-                                            if (quickEvasionTurns == 0)
+                                            if (swiftEvasionTurns == 0)
                                             {
                                                 monsterAttackHit = rnd.Next(3);
                                             }
                                             else
                                             {
                                                 monsterAttackHit = rnd.Next(2);
-                                                quickEvasionTurns--;
+                                                swiftEvasionTurns--;
                                             }
                                             if (attackHit == 0)
                                             {
@@ -2252,8 +2252,8 @@ namespace ConsoleApplication1
                                                     ironArmorTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
                                                     break;
 
-                                                case "specialStagesPlayerList":
-                                                    quickEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
+                                                case "Swift Evasion":
+                                                    swiftEvasionTurns = ((Spell)player.GetSpellsEquipped()[index]).use();
                                                     break;
                                             }
                                         }
@@ -2278,7 +2278,7 @@ namespace ConsoleApplication1
                         {
                             Console.WriteLine("You have died and lost your exp");
                             ironArmorTurns = 0;
-                            quickEvasionTurns = 0;
+                            swiftEvasionTurns = 0;
                             player.SetExp(0);
                             RestingArea();
                         }
@@ -2296,7 +2296,7 @@ namespace ConsoleApplication1
                     case "h":
                         if (player.GetHeals() > 0)
                         {
-                            player.IncreaseHealth(potionHeal);
+                            player.IncreaseHealth(potionHealAmount);
                             if (player.GetHealth() > player.GetMaxHealth())
                             {
                                 player.SetHealth(1);
@@ -2332,12 +2332,12 @@ namespace ConsoleApplication1
                 }
                 if (player.GetEquipmentBag().Count < player.GetBagSpace())
                 {
+                    rand = rng.Next(0, 150);
+                    Console.WriteLine(rand);
                     switch (stage)
                     {
                         case 1:
                             player.AddEquipment(1);
-                            rand = rng.Next(0, 150);
-                            Console.WriteLine(rand);
                             if (rand == 70)
                             {
                                 Console.WriteLine("A Legendary Weapon has been found.");
@@ -2348,82 +2348,43 @@ namespace ConsoleApplication1
                                 Staff wizardsEye = new LegendaryStaff(rnd.Next(200, 250));
                                 Bow hawkShot = new LegendaryBow(rnd.Next(200, 250));
                                 rand = rng.Next(0, 6);
-                                switch (rand)
+                                if (player.GetEquipmentBag().Count >= player.GetBagSpace())
                                 {
-                                    case 0:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                    Console.WriteLine("You are out of bag space.");
+                                }
+                                else
+                                {
+                                    switch (rand)
+                                    {
+                                        case 0:
                                             player.GetEquipmentBag().Add(devastator);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 1:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 1:
                                             player.GetEquipmentBag().Add(shadowKnife);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 2:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 2:
                                             player.GetEquipmentBag().Add(twinAssassins);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 3:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 3:
                                             player.GetEquipmentBag().Add(shortDevastation);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 4:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 4:
                                             player.GetEquipmentBag().Add(wizardsEye);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 5:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
-                                            player.GetEquipmentBag().Add(hawkShot);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
-
+                                        case 5:
+                                            break;
+                                    }
                                 }
                             }
                             break;
 
                         case 2:
                             player.AddEquipment(2);
-                            rand = rng.Next(0, 150);
-                            Console.WriteLine(rand);
                             if (rand == 70)
                             {
                                 Console.WriteLine("A Legendary Weapon has been found.");
@@ -2434,81 +2395,44 @@ namespace ConsoleApplication1
                                 Staff wizardsEye = new LegendaryStaff(rnd.Next(400, 450));
                                 Bow hawkShot = new LegendaryBow(rnd.Next(400, 450));
                                 rand = rng.Next(0, 6);
-                                switch (rand)
+                                if (player.GetEquipmentBag().Count >= player.GetBagSpace())
                                 {
-                                    case 0:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                    Console.WriteLine("You are out of bag space.");
+                                }
+                                else
+                                {
+                                    switch (rand)
+                                    {
+                                        case 0:
                                             player.GetEquipmentBag().Add(devastator);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 1:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 1:
                                             player.GetEquipmentBag().Add(shadowKnife);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 2:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 2:
                                             player.GetEquipmentBag().Add(twinAssassins);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 3:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 3:
                                             player.GetEquipmentBag().Add(shortDevastation);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 4:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 4:
                                             player.GetEquipmentBag().Add(wizardsEye);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 5:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 5:
                                             player.GetEquipmentBag().Add(hawkShot);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
+                                    }
                                 }
                             }
                             break;
 
                         case 3:
                             player.AddEquipment(3);
-                            rand = rng.Next(0, 150);
-                            Console.WriteLine(rand);
                             if (rand == 70)
                             {
                                 Console.WriteLine("A Legendary Weapon has been found.");
@@ -2519,73 +2443,38 @@ namespace ConsoleApplication1
                                 Staff wizardsEye = new LegendaryStaff(rnd.Next(600, 650));
                                 Bow hawkShot = new LegendaryBow(rnd.Next(600, 650));
                                 rand = rng.Next(0, 6);
-                                switch (rand)
+                                if (player.GetEquipmentBag().Count >= player.GetBagSpace())
                                 {
-                                    case 0:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                    Console.WriteLine("You are out of bag space.");
+                                }
+                                else
+                                {
+                                    switch (rand)
+                                    {
+                                        case 0:
                                             player.GetEquipmentBag().Add(devastator);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 1:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 1:
                                             player.GetEquipmentBag().Add(shadowKnife);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 2:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 2:
                                             player.GetEquipmentBag().Add(twinAssassins);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 3:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 3:
                                             player.GetEquipmentBag().Add(shortDevastation);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 4:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 4:
                                             player.GetEquipmentBag().Add(wizardsEye);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
 
-                                    case 5:
-                                        if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                                        {
+                                        case 5:
                                             player.GetEquipmentBag().Add(hawkShot);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("You are out of bag space.");
-                                        }
-                                        break;
+                                            break;
+                                    }
                                 }
                             }
                             break;
@@ -2600,121 +2489,56 @@ namespace ConsoleApplication1
             else
             {
                 // Dependent on which special stage is active (5% drop rate on all special stages)
-                switch (stage)
+                rand = rng.Next(0, 20);
+                Console.WriteLine(rand);
+                if (rand == 20)
                 {
-                    // Longsword boss
-                    case 10:
-                        rand = rng.Next(0, 30);
-                        Console.WriteLine(rand);
-                        if (rand == 20)
+                    Console.WriteLine("A Legendary Weapon has been found.");
+                    LongSword devastator = new LegendaryLongSword(rng.Next(4000, 4500));
+                    Dagger shadowKnife = new LegendaryDagger(rng.Next(4000, 4500));
+                    TwinDaggers twinAssassins = new LegendaryTwinDaggers(rnd.Next(4000, 4500));
+                    ShortSword shortDevastation = new LegendaryShortSword(rnd.Next(4000, 4500));
+                    Staff wizardsEye = new LegendaryStaff(rnd.Next(4000, 4500));
+                    Bow hawkShot = new LegendaryBow(rnd.Next(4000, 4500));
+                    if (player.GetEquipmentBag().Count >= player.GetBagSpace())
+                    {
+                        Console.WriteLine("You are out of bag space.");
+                    }
+                    else
+                    {
+                        switch (stage)
                         {
-                            Console.WriteLine("A Legendary Weapon has been found.");
-                            LongSword devastator = new LegendaryLongSword(rng.Next(4000, 4500));
-                            if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                            {
+                            // Longsword boss
+                            case 10:
                                 player.GetEquipmentBag().Add(devastator);
-                            }
-                            else
-                            {
-                                Console.WriteLine("You are out of bag space.");
-                            }
-                        }
-                        break;
+                                break;
 
-                    // Dagger boss
-                    case 11:
-                        rand = rng.Next(0, 30);
-                        Console.WriteLine(rand);
-                        if (rand == 20)
-                        {
-                            Console.WriteLine("A Legendary Weapon has been found.");
-                            Dagger shadowKnife = new LegendaryDagger(rng.Next(4000, 4500));
-                            if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                            {
+                            // Dagger boss
+                            case 11:
                                 player.GetEquipmentBag().Add(shadowKnife);
-                            }
-                            else
-                            {
-                                Console.WriteLine("You are out of bag space.");
-                            }
-                        }
-                        break;
+                                break;
 
-                    // Twindagger boss
-                    case 12:
-                        rand = rng.Next(0, 30);
-                        Console.WriteLine(rand);
-                        if (rand == 20)
-                        {
-                            Console.WriteLine("A Legendary Weapon has been found.");
-                            TwinDaggers twinAssassins = new LegendaryTwinDaggers(rnd.Next(4000, 4500));
-                            if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                            {
+                            // Twindagger boss
+                            case 12:
                                 player.GetEquipmentBag().Add(twinAssassins);
-                            }
-                            else
-                            {
-                                Console.WriteLine("You are out of bag space.");
-                            }
-                        }
-                        break;
+                                break;
 
-                    // Shortsword boss
-                    case 13:
-                        rand = rng.Next(0, 30);
-                        Console.WriteLine(rand);
-                        if (rand == 20)
-                        {
-                            Console.WriteLine("A Legendary Weapon has been found.");
-                            ShortSword shortDevastation = new LegendaryShortSword(rnd.Next(4000, 4500));
-                            if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                            {
+                            // Shortsword boss
+                            case 13:
                                 player.GetEquipmentBag().Add(shortDevastation);
-                            }
-                            else
-                            {
-                                Console.WriteLine("You are out of bag space.");
-                            }
-                        }
-                        break;
+                                break;
 
-                    // Staff boss
-                    case 14:
-                        rand = rng.Next(0, 30);
-                        Console.WriteLine(rand);
-                        if (rand == 20)
-                        {
-                            Console.WriteLine("A Legendary Weapon has been found.");
-                            Staff wizardsEye = new LegendaryStaff(rnd.Next(4000, 4500));
-                            if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                            {
+                            // Staff boss
+                            case 14:
                                 player.GetEquipmentBag().Add(wizardsEye);
-                            }
-                            else
-                            {
-                                Console.WriteLine("You are out of bag space.");
-                            }
-                        }
-                        break;
+                                break;
 
-                    // Bow boss
-                    case 15:
-                        rand = rng.Next(0, 30);
-                        Console.WriteLine(rand);
-                        if (rand == 20)
-                        {
-                            Console.WriteLine("A Legendary Weapon has been found.");
-                            Bow hawkShot = new LegendaryBow(rnd.Next(4000, 4500));
-                            if (player.GetEquipmentBag().Count < player.GetBagSpace())
-                            {
+                            // Bow boss
+                            case 15:
                                 player.GetEquipmentBag().Add(hawkShot);
-                            }
-                            else
-                            {
-                                Console.WriteLine("You are out of bag space.");
-                            }
+                                break;
                         }
-                        break;
+                    }
                 }
             }
 
@@ -2759,7 +2583,7 @@ namespace ConsoleApplication1
 
             Console.WriteLine("Boss has been slain");
             Console.WriteLine("Potions will now heal 10 more health.");
-            potionHeal = potionHeal + 10;
+            potionHealAmount = potionHealAmount + 10;
             if (numberOfStagesAvailable == stage)
             {
                 numberOfStagesAvailable++;
@@ -2789,7 +2613,7 @@ namespace ConsoleApplication1
                 {
                     case "f":
 
-                        // Change to case statement for different levels later
+                        // TODO Change to case statement for different levels later
                         if (numberOfStagesAvailable > 1)
                         {
                             switch (numberOfStagesAvailable)
